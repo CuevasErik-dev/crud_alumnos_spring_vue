@@ -29,6 +29,14 @@ public class AlumnoController {
         return alumnoRepository.findAll();
     }
 
+    // Metodo para traer un alumno por numero de cont
+    @GetMapping("/traer-alumno/{id}")
+    public ResponseEntity<Alumno> TraerUnAlumno(@PathVariable Long id) {
+        return alumnoRepository.findById(id)
+                .map(alumno -> ResponseEntity.ok(alumno))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     // Metodo para Insertar un alumno a la base de datos
     @PostMapping("/insertar-alumno")
     public Alumno insertarAlumno(@RequestBody Alumno alumno) {
@@ -51,9 +59,9 @@ public class AlumnoController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    //metodo para eliminar un alumno 
+    // metodo para eliminar un alumno
     @DeleteMapping("/eliminar-alumnos/{id}")
-    public void eliminarAlumno(@PathVariable long id){
+    public void eliminarAlumno(@PathVariable long id) {
         alumnoRepository.deleteById(id);
     }
 }
