@@ -21,6 +21,8 @@ const limpiarFormulario = () => {
   };
 };
 
+const editado = ref(false);
+
 const eliminarAlumno = async (id) => {
   await axios.delete(`http://localhost:8080/alumnos/eliminar-alumnos/${id}`);
   console.log("Alumno eliminado");
@@ -36,13 +38,23 @@ const cargarAlumnos = async () => {
 };
 
 const agregarAlumno = async () => {
-  await axios.post(
-    "http://localhost:8080/alumnos/insertar-alumno",
-    nuevoAlumno.value
-  );
+  if (editado.value){
+    await axios.put(`http://localhost:8080/alumnos/editar-alumnos/${nuevoAlumno.value.id}`,nuevoAlumno.value);
+    console.log("Alumno editado");
+    editado.value=false;
+
+  }else{
+    await axios.post("http://localhost:8080/alumnos/insertar-alumno",nuevoAlumno.value);
+  }
+  
   await cargarAlumnos();
   limpiarFormulario();
 };
+
+const editarAlumnos = (alumno) => {
+    Object.assign(nuevoAlumno.value, alumno);
+    editado.value = true;
+  };
 
 onMounted(cargarAlumnos);
 
@@ -83,7 +95,9 @@ onMounted(cargarAlumnos);
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary mt-3">Agregar Alumno</button>
+            <button type="submit" class="btn btn-primary mt-3">
+              {{ editado ? "Actualizar Alumno" : "Agregar Alumno" }}
+            </button>
           </form>
         </div>
       </div>
@@ -118,7 +132,9 @@ onMounted(cargarAlumnos);
                     <button @click="eliminarAlumno(alumno.id)" class="btn btn-danger mx-2">
                       <i class="bi bi-trash2-fill"></i>
                     </button>
-                    <button class="btn btn-warning"><i class="bi bi-pencil-fill"></i></button>
+                    <button @click="editarAlumnos(alumno)" class="btn btn-warning">
+                      <i class="bi bi-pencil-fill"></i>
+                    </button>
                   </td>
                 </tr>
               </tbody>
