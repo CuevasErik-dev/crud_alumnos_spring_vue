@@ -21,6 +21,12 @@ const limpiarFormulario = () => {
   };
 };
 
+const eliminarAlumno = async (id) => {
+  await axios.delete(`http://localhost:8080/alumnos/eliminar-alumnos/${id}`);
+  console.log("Alumno eliminado");
+  await cargarAlumnos();
+};
+
 const cargarAlumnos = async () => {
   const response = await axios.get(
     "http://localhost:8080/alumnos/traer-alumnos"
@@ -109,7 +115,9 @@ onMounted(cargarAlumnos);
                     <img :src="alumno.imagenurl" alt="Imagen del Alumno" width="50" />
                   </td>
                   <td>
-                    <button class="btn btn-danger mx-2"><i class="bi bi-trash2-fill"></i></button>
+                    <button @click="eliminarAlumno(alumno.id)" class="btn btn-danger mx-2">
+                      <i class="bi bi-trash2-fill"></i>
+                    </button>
                     <button class="btn btn-warning"><i class="bi bi-pencil-fill"></i></button>
                   </td>
                 </tr>
