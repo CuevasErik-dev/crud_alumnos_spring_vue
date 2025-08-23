@@ -25,9 +25,43 @@ const limpiarFormulario = () => {
 const editado = ref(false);
 
 const eliminarAlumno = async (id) => {
-  await axios.delete(`http://localhost:8080/alumnos/eliminar-alumnos/${id}`);
-  console.log("Alumno eliminado");
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "No podrás deshacer esta acción",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar"
+
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      await eliminarAlumnoPorId(id);
+    }
+  });
   await cargarAlumnos();
+};
+
+const eliminarAlumnoPorId = async (id) => {
+  try {
+    await axios.delete(`http://localhost:8080/alumnos/eliminar-alumnos/${id}`);
+    Swal.fire({
+      icon: "success",
+      title: "Eliminado",
+      text: "El alumno ha sido eliminado",
+      showConfirmButton: false,
+      timer: 1500
+    });
+    cargarAlumnos();
+  } catch (err) {
+    Swal.fire({
+      icon: "error",
+      title: "Error al eliminar",
+      text: "No se pudo eliminar el alumno",
+      timer: 1500
+    });
+  }
 };
 
 const cargarAlumnos = async () => {
@@ -39,25 +73,50 @@ const cargarAlumnos = async () => {
 };
 
 const agregarAlumno = async () => {
-  if (editado.value){
-    await axios.put(`http://localhost:8080/alumnos/editar-alumnos/${nuevoAlumno.value.id}`,nuevoAlumno.value);
-    console.log("Alumno editado");
-    editado.value=false;
+  if (editado.value) {
+    await axios.put(`http://localhost:8080/alumnos/editar-alumnos/${nuevoAlumno.value.id}`, nuevoAlumno.value);
+    Swal.fire({
+      icon: 'success',
+      title: "Alumno Actualizado Correctamente",
+      showConfirmButton: false,
+      timer: 1500
+    });
+    editado.value = false;
 
-  }else{
-    await axios.post("http://localhost:8080/alumnos/insertar-alumno",nuevoAlumno.value);
+  } else {
+    await axios.post("http://localhost:8080/alumnos/insertar-alumno", nuevoAlumno.value);
+    Swal.fire({
+      icon: 'success',
+      title: "Alumno Agregado Correctamente",
+      showConfirmButton: false,
+      timer: 1500
+    });
   }
-  
+
   await cargarAlumnos();
   limpiarFormulario();
 };
 
 const editarAlumnos = (alumno) => {
-    Object.assign(nuevoAlumno.value, alumno);
-    editado.value = true;
-  };
+  Swal.fire({
+    title: "¿Estás seguro de editar este alumno?",
+    text: "Esta acción no se puede deshacer",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, editar",
+    cancelButtonText: "Cancelar"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Object.assign(nuevoAlumno.value, alumno);
+      editado.value = true;
+    }
+  });
+};
 
 onMounted(cargarAlumnos);
+
 
 </script>
 
@@ -103,11 +162,11 @@ onMounted(cargarAlumnos);
         </div>
       </div>
 
-      <div class="col-md-12">
-        <div class="card shadow">
-          <div class="card-body">
+      <div class="col-md-12 ">
+        <div class="card shadow  mb-4 ">
+          <div class="card-body mx-3 ">
             <h4 class="card-title mb-3">Tabla de Alumnos</h4>
-            <table class="table table-hover align-middle">
+            <table class="table table-hover align-middle mx-3">
               <thead class="table-light">
                 <tr>
                   <th scope="col">ID</th>
