@@ -4,13 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0 --port 5173",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "sweetalert2": "^11.22.4",
-    "vue": "^3.5.13"
+    "vue": "^3.5.13",
+    "axios": "^1.10.0",
+    "bootstrap": "^5.3.7"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
