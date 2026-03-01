@@ -131,22 +131,26 @@ onMounted(cargarAlumnos);
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" id="nombre" v-model="nuevoAlumno.nombre" class="form-control" required />
+                <input type="text" id="nombre" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)*"
+                v-model="nuevoAlumno.nombre" class="form-control" required />
               </div>
 
               <div class="col-md-6 mb-3">
                 <label for="apellido" class="form-label">Apellidos</label>
-                <input type="text" id="apellido" v-model="nuevoAlumno.apellido" class="form-control" required />
+                <input type="text" id="apellido" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)*"
+                v-model="nuevoAlumno.apellido" class="form-control" required />
               </div>
 
               <div class="col-md-6 mb-3">
                 <label for="carrera" class="form-label">Carrera</label>
-                <input type="text" id="carrera" v-model="nuevoAlumno.carrera" class="form-control" required />
+                <input type="text" id="carrera" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)*"
+                v-model="nuevoAlumno.carrera" class="form-control" required />
               </div>
 
               <div class="col-md-6 mb-3">
                 <label for="telefono" class="form-label">Telefono</label>
-                <input type="number" id="telefono" v-model="nuevoAlumno.telefono" class="form-control" required />
+                <input type="tel" pattern="^\d{10}$" inputmode="numeric" id="telefono" 
+                v-model="nuevoAlumno.telefono" class="form-control" required />
               </div>
 
               <div class="col-md-6 mb-3">

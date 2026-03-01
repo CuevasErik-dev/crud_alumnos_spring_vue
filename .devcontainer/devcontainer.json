@@ -15,7 +15,17 @@
 		}
 	},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [5173, 8080]
+	"forwardPorts": [
+		5173,
+		8080
+	],
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"Vue.volar"
+			]
+		}
+	}
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "java -version",
 	// Configure tool-specific properties.
